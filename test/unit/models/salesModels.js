@@ -1,7 +1,6 @@
 const sinon = require("sinon");
 const { expect } = require("chai");
 
-const connection = require("../../../models/connection");
 const SalesModels = require("../../../models/salesModels");
 
 describe("Vendas - (Camada Model) Quando busca todas as vendas", () => {
