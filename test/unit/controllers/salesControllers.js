@@ -4,7 +4,8 @@ const { expect } = require("chai");
 const SalesService = require("../../../services/salesService");
 const SalesController = require("../../../controllers/salesController");
 
-describe("Vendas - (Camada Controller) Quando busca todas as vendas", () => {
+describe("(Camada Controller de sales - Vendas)", () => {
+  describe("Quando busca todas as vendas", () => {
   const response = {};
   const request = {};
 
@@ -51,8 +52,8 @@ describe("Vendas - (Camada Controller) Quando busca todas as vendas", () => {
   });
 });
 
-describe("Vendas - (Camada Controller) Quando busca vendas por id", () => {
-  describe("quando não existe uma venda com o id informado", async () => {
+describe("Quando busca vendas por id", () => {
+  describe("E não existe uma venda com o id informado", async () => {
     const response = {};
     const request = {};
 
@@ -82,7 +83,7 @@ describe("Vendas - (Camada Controller) Quando busca vendas por id", () => {
     });
   });
 
-  describe("quando existe uma venda com o id informado", async () => {
+  describe("E existe uma venda com o id informado", async () => {
     const response = {};
     const request = {};
 
@@ -122,4 +123,5 @@ describe("Vendas - (Camada Controller) Quando busca vendas por id", () => {
       expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
     });
   });
+});
 });
