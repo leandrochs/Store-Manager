@@ -269,5 +269,39 @@ describe("(Camada Controller de products - Produtos)", () => {
       });
     });
 
+    describe("Quando o cadastro é feito com sucesso", async () => {
+      const response = {};
+      const request = {};
+
+      before(() => {
+        request.body = {
+          name: "produto",
+          quantity: 10,
+        };
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        sinon.stub(ProductsService, "create").resolves({
+          id: 4,
+          name: "produto",
+          quantity: 10,
+  });
+      });
+
+      after(() => {
+        ProductsService.create.restore();
+      });
+
+      it('é chamado o método "status" passando o código 201', async () => {
+        await ProductsController.create(request, response);
+        expect(response.status.calledWith(201)).to.be.equal(true);
+      });
+
+      it('é chamado o método "json" passando um objeto', async () => {
+        await ProductsController.create(request, response);
+        expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+      });
+    });
   });
 });

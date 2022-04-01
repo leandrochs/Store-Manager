@@ -53,7 +53,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
   });
 
   describe("Quando busca vendas por id", () => {
-    describe("E não existe uma venda com o id informado", async () => {
+    describe("Quando não existe uma venda com o id informado", async () => {
       const response = {};
       const request = {};
 
@@ -84,7 +84,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
       });
     });
 
-    describe("E existe uma venda com o id informado", async () => {
+    describe("Quando existe uma venda com o id informado", async () => {
       const response = {};
       const request = {};
 
@@ -242,6 +242,55 @@ describe("(Camada Controller de sales - Vendas)", () => {
             message: '"quantity" must be greater than or equal to 1',
           })
         ).to.be.true;
+      });
+    });
+
+    describe("Quando o cadastro é feito com sucesso", async () => {
+      const response = {};
+      const request = {};
+
+      before(() => {
+        request.body = [
+          {
+            productId: 1,
+            quantity: 2,
+          },
+          {
+            productId: 2,
+            quantity: 5,
+          },
+        ];
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        sinon.stub(SalesService, "create").resolves({
+          id: 3,
+          itemsSold: [
+            {
+              productId: 1,
+              quantity: 2,
+            },
+            {
+              productId: 2,
+              quantity: 5,
+            },
+          ],
+        });
+      });
+
+      after(() => {
+        SalesService.create.restore();
+      });
+
+      it('é chamado o método "status" passando o código 201', async () => {
+        await SalesController.create(request, response);
+        expect(response.status.calledWith(201)).to.be.equal(true);
+      });
+
+      it('é chamado o método "json" passando um objeto', async () => {
+        await SalesController.create(request, response);
+        expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
       });
     });
   });
