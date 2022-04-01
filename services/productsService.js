@@ -51,7 +51,6 @@ const update = async (id, name, quantity) => {
     }
 
     const exist = await ProductsModel.getById(id);
-    console.log('exist: ', exist);
     if (!exist) return exist;
 
     const product = await ProductsModel.update(id, name, quantity);
