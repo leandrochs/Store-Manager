@@ -23,7 +23,23 @@ const getById = async (req, res) => {
   }
 };
 
+const create = async (req, res) => {
+  try {
+    const product = await salesService.create(req.body);
+
+    if (product.error) { 
+      return res.status(product.error).json({ message: product.message }); 
+    }
+
+    return res.status(201).json(product);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Erro no Servidor' });
+  }
+};
+
 module.exports = {
   getAllSales,
   getById,
+  create,
 };
