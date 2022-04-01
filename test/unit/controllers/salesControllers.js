@@ -294,4 +294,92 @@ describe("(Camada Controller de sales - Vendas)", () => {
       });
     });
   });
+
+  describe("Quando atualiza uma venda", async () => {
+    describe("Quando o id da venda não existe", async () => {
+      const response = {};
+      const request = {};
+
+      before(() => {
+        request.body = [
+          {
+            productId: 1,
+            quantity: 6,
+          },
+        ];
+
+        request.params = {
+          id: 1000,
+        };
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        sinon.stub(SalesService, "update").resolves([]);
+      });
+
+      after(() => {
+        SalesService.update.restore();
+      });
+
+      it('é chamado o método "status" passando 404', async () => {
+        await SalesController.update(request, response);
+        expect(response.status.calledWith(404)).to.be.true;
+      });
+
+      it('é chamado o método "json" passando a mensagem "Sale not found"', async () => {
+        await SalesController.update(request, response);
+        expect(
+          response.json.calledWith({
+            message: "Sale not found",
+          })
+        ).to.be.true;
+      });
+    });
+
+    describe("Quando a venda é atualizada", async () => {
+      const response = {};
+      const request = {};
+
+      before(() => {
+        request.body = [
+          {
+            productId: 1,
+            quantity: 6,
+          },
+        ];
+
+        request.params = {
+          id: 1,
+        };
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        sinon.stub(SalesService, "update").resolves({
+          saleId: 1,
+          itemUpdated: [
+            {
+              productId: 1,
+              quantity: 6,
+            },
+          ],
+        });
+      });
+
+      after(() => {
+        SalesService.update.restore();
+      });
+
+      it('é chamado o método "status" passando 200', async () => {
+        await SalesController.update(request, response);
+        expect(response.status.calledWith(200)).to.be.true;
+      });
+
+      it('é chamado o método "json" passando um objeto', async () => {
+        await SalesController.update(request, response);
+        expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+      });
+    });
+  });
 });
