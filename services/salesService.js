@@ -1,3 +1,4 @@
+const validateSalesMiddleware = require('../middlewares/validateSalesMiddleware');
 const SalesModel = require('../models/salesModels');
 
 const getAllSales = async () => {
@@ -18,7 +19,25 @@ const getById = async (id) => {
   }
 };
 
+const create = async (sales) => {
+  try {
+    const invalidParams = validateSalesMiddleware(sales);
+
+    if (invalidParams) {
+      return { error: invalidParams.error, message: invalidParams.message };
+    }
+
+    const created = await SalesModel.create(sales);
+
+    return created;
+  } catch (error) {
+    console.log(error);
+    return { error: 500, message: 'Erro no Servidor' };
+  }
+};
+
 module.exports = {
   getAllSales,
   getById,
+  create,
 };
