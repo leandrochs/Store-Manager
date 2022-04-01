@@ -6,7 +6,8 @@ const validateProductMiddleware = ({ name, quantity }) => {
       message: '"name" length must be at least 5 characters long',
     }; 
 }
-  if (!quantity) return { error: 400, message: '"quantity" is required' };
+  if (quantity === undefined) return { error: 400, message: '"quantity" is required' };
+  
   if (quantity <= 0) {
     return {
       error: 422,
