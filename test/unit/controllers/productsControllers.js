@@ -50,7 +50,7 @@ describe("(Camada Controller de products - Produtos)", () => {
   });
 
   describe("Quando busca produtos por id", () => {
-    describe("E não existe um produto com o id informado", async () => {
+    describe("Quando não existe um produto com o id informado", async () => {
       const response = {};
       const request = {};
 
@@ -286,7 +286,7 @@ describe("(Camada Controller de products - Produtos)", () => {
           id: 4,
           name: "produto",
           quantity: 10,
-  });
+        });
       });
 
       after(() => {
@@ -300,6 +300,86 @@ describe("(Camada Controller de products - Produtos)", () => {
 
       it('é chamado o método "json" passando um objeto', async () => {
         await ProductsController.create(request, response);
+        expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+      });
+    });
+  });
+
+  describe("Quando atualiza um produto", async () => {
+    describe("Quando o id do produto não existe", async () => {
+      const response = {};
+      const request = {};
+
+      before(() => {
+        request.body = {
+          name: "Martelo de Thor",
+          quantity: 100,
+        };
+
+        request.params = {
+          id: 1000,
+        };
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        sinon.stub(ProductsService, "update").resolves(null);
+      });
+
+      after(() => {
+        ProductsService.update.restore();
+      });
+
+      it('é chamado o método "status" passando 404', async () => {
+        await ProductsController.update(request, response);
+        expect(response.status.calledWith(404)).to.be.true;
+      });
+
+      it('é chamado o método "json" passando a mensagem "Product not found"', async () => {
+        await ProductsController.update(request, response);
+        expect(
+          response.json.calledWith({
+            message: "Product not found",
+          })
+        ).to.be.true;
+      });
+    });
+
+    describe("Quando o produto é atualizado", async () => {
+      const response = {};
+      const request = {};
+
+      before(() => {
+        request.body = {
+          name: "Martelo de Thor",
+          quantity: 100,
+        };
+
+        request.params = {
+          id: 1,
+        };
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        sinon.stub(ProductsService, "update").resolves({
+          id: "1",
+          name: "Martelo de Thor",
+          quantity: 100,
+        });
+      });
+
+      after(() => {
+        ProductsService.update.restore();
+      });
+
+      it('é chamado o método "status" passando 200', async () => {
+        await ProductsController.update(request, response);
+        expect(response.status.calledWith(200)).to.be.true;
+      });
+
+      it('é chamado o método "json" passando um objeto', async () => {
+        await ProductsController.update(request, response);
         expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
       });
     });
