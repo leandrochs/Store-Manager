@@ -58,6 +58,21 @@ const update = async (id, name, quantity) => {
     return product;
   } catch (error) {
     console.log(error);
+    return { error: 500, message: 'Erro no Servidor' };
+  }
+};
+
+const deleteById = async (id) => {
+  try {
+    const exist = await ProductsModel.getById(id);
+    console.log('exist: ', exist);
+    if (!exist) return exist;
+
+    const product = await ProductsModel.deleteById(id);
+    return product;
+  } catch (error) {
+    console.log(error);
+    return { error: 500, message: 'Erro no Servidor' };
   }
 };
 
@@ -66,4 +81,6 @@ module.exports = {
   getById,
   create,
   update,
+  deleteById,
+  
 };
