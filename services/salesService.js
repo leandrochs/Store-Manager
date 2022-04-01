@@ -51,9 +51,24 @@ const update = async (id, productId, quantity) => {
   }
 };
 
+const deleteById = async (id) => {
+  try {
+    const exist = await SalesModel.getById(id);
+    console.log('exist: ', exist);
+    if (exist.length === 0) return exist;
+
+    const sale = await SalesModel.deleteById(id);
+    return sale;
+  } catch (error) {
+    console.log(error);
+    return { error: 500, message: 'Erro no Servidor' };
+  }
+};
+
 module.exports = {
   getAllSales,
   getById,
   create,
   update,
+  deleteById,
 };

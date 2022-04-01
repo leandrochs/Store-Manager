@@ -8,6 +8,7 @@ router
   .get('/', SalesController.getAllSales)
   .get('/:id', SalesController.getById)
   .post('/', SalesController.create)
-  .put('/:id', SalesController.update);
+  .put('/:id', SalesController.update)
+  .delete('/:id', SalesController.deleteById);
 
 module.exports = router;
