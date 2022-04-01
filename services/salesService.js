@@ -44,6 +44,9 @@ const update = async (id, productId, quantity) => {
       return { error: invalidParams.error, message: invalidParams.message };
     }
 
+    const exist = await SalesModel.getById(id);
+    if (exist.length === 0) return exist;
+
     const product = await SalesModel.update(id, productId, quantity);
     return product;
   } catch (error) {
@@ -54,7 +57,6 @@ const update = async (id, productId, quantity) => {
 const deleteById = async (id) => {
   try {
     const exist = await SalesModel.getById(id);
-    console.log('exist: ', exist);
     if (exist.length === 0) return exist;
 
     const sale = await SalesModel.deleteById(id);
