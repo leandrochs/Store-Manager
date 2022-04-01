@@ -50,8 +50,9 @@ const update = async (id, name, quantity) => {
       return { error: invalidParams.error, message: invalidParams.message };
     }
 
-    const productName = await ProductsModel.getByName(name);
-    if (!productName) return productName;
+    const exist = await ProductsModel.getById(id);
+    console.log('exist: ', exist);
+    if (!exist) return exist;
 
     const product = await ProductsModel.update(id, name, quantity);
     return product;
