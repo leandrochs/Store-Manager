@@ -382,4 +382,77 @@ describe("(Camada Controller de sales - Vendas)", () => {
       });
     });
   });
+
+  describe("Quando deleta uma venda", async () => {
+    describe("Quando o id da venda não existe", async () => {
+      const response = {};
+      const request = {};
+
+      before(() => {
+        request.body = [
+          {
+            productId: 1,
+            quantity: 6,
+          },
+        ];
+
+        request.params = {
+          id: 1000,
+        };
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        sinon.stub(SalesService, "deleteById").resolves([]);
+      });
+
+      after(() => {
+        SalesService.deleteById.restore();
+      });
+
+      it('é chamado o método "status" passando 404', async () => {
+        await SalesController.deleteById(request, response);
+        expect(response.status.calledWith(404)).to.be.true;
+      });
+
+      it('é chamado o método "json" passando a mensagem "Sale not found"', async () => {
+        await SalesController.deleteById(request, response);
+        expect(
+          response.json.calledWith({
+            message: "Sale not found",
+          })
+        ).to.be.true;
+      });
+    });
+
+    describe("Quando a venda é deletada", async () => {
+      const response = {};
+      const request = {};
+
+      before(() => {
+        request.params = {
+          id: 1,
+        };
+
+        response.sendStatus = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        sinon.stub(SalesService, "deleteById").resolves([{ idDeleted: "1" }]);
+      });
+
+      after(() => {
+        SalesService.deleteById.restore();
+      });
+
+      it('é chamado o método "sendStatus" passando 204', async () => {
+        await SalesController.deleteById(request, response);
+        expect(response.sendStatus.calledWith(204)).to.be.true;
+      });
+
+      it('não é chamado o método "json"', async () => {
+        await SalesController.deleteById(request, response);
+        expect(response.json.calledWith(sinon.match.object)).to.be.equal(false);
+      });
+    });
+  });
 });
