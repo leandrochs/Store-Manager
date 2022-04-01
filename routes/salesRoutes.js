@@ -6,6 +6,7 @@ const SalesController = require('../controllers/salesController');
 
 router
   .get('/', SalesController.getAllSales)
-  .get('/:id', SalesController.getById);
+  .get('/:id', SalesController.getById)
+  .post('/', SalesController.create);
 
 module.exports = router;
