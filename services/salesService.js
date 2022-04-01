@@ -36,8 +36,24 @@ const create = async (sales) => {
   }
 };
 
+const update = async (id, productId, quantity) => {
+  try {
+    const invalidParams = validateSalesMiddleware([{ productId, quantity }]);
+
+    if (invalidParams) {
+      return { error: invalidParams.error, message: invalidParams.message };
+    }
+
+    const product = await SalesModel.update(id, productId, quantity);
+    return product;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getAllSales,
   getById,
   create,
+  update,
 };

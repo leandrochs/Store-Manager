@@ -42,8 +42,27 @@ const create = async (product) => {
   }
 };
 
+const update = async (id, name, quantity) => {
+  try {
+    const invalidParams = validateProductMiddleware({ name, quantity });
+
+    if (invalidParams) {
+      return { error: invalidParams.error, message: invalidParams.message };
+    }
+
+    const productName = await ProductsModel.getByName(name);
+    if (!productName) return productName;
+
+    const product = await ProductsModel.update(id, name, quantity);
+    return product;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getAllProducts,
   getById,
   create,
+  update,
 };
