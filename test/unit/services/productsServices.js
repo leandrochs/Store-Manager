@@ -167,9 +167,7 @@ describe("(Camada Service de products - Produtos)", () => {
       const quantity = 100;
 
       before(async () => {
-        sinon
-          .stub(ProductsModel, "getById")
-          .resolves(null);
+        sinon.stub(ProductsModel, "getById").resolves(null);
       });
 
       after(async () => {
@@ -216,19 +214,12 @@ describe("(Camada Service de products - Produtos)", () => {
     });
   });
 
-
-
   describe("Quando deleta um produto", async () => {
     describe("Quando o id do produto não existe", async () => {
-
       const id = 9999;
-      const name = "Martelo de Thor";
-      const quantity = 100;
 
       before(async () => {
-        sinon
-          .stub(ProductsModel, "getById")
-          .resolves(null);
+        sinon.stub(ProductsModel, "getById").resolves(null);
       });
 
       after(async () => {
@@ -237,46 +228,37 @@ describe("(Camada Service de products - Produtos)", () => {
 
       it("retorna propriedades 'error' e 'message'", async () => {
         const response = await ProductsService.deleteById(id);
-      // expect(response).to.be.an("array");
-
         expect(response).to.include.all.keys("error", "message");
       });
     });
 
-    // describe("Quando o produto é deletado", async () => {
-    //   const response = {};
-    //   const request = {};
+    describe("Quando o produto é deletado", async () => {
+      const id = 1;
 
-    //   before(() => {
-    //     request.params = {
-    //       id: 1,
-    //     };
+      before(async () => {
+        sinon
+          .stub(ProductsModel, "getById")
+          .resolves({ id: 1, name: "Martelo de Thor", quantity: 10 });
+      });
 
-    //     response.sendStatus = sinon.stub().returns(response);
-    //     response.json = sinon.stub().returns();
+      after(async () => {
+        ProductsModel.getById.restore();
+      });
 
-    //     sinon
-    //       .stub(ProductsService, "deleteById")
-    //       .resolves([{ idDeleted: "1" }]);
-    //   });
+      it("retorna um objeto", async () => {
+        const response = await ProductsService.deleteById(1);
+        expect(response).to.be.an("array");
+      });
 
-    //   after(() => {
-    //     ProductsService.deleteById.restore();
-    //   });
+      it("O objeto não está vazio", async () => {
+        const response = await ProductsService.deleteById(1);
+        expect(response).to.be.not.empty;
+      });
 
-    //   it('é chamado o método "sendStatus" passando 204', async () => {
-    //     await ProductsController.deleteById(request, response);
-    //     expect(response.sendStatus.calledWith(204)).to.be.true;
-    //   });
-
-    //   it('não é chamado o método "json"', async () => {
-    //     await ProductsController.deleteById(request, response);
-    //     expect(response.json.calledWith(sinon.match.object)).to.be.equal(false);
-    //   });
-    // });
+      it("Objeto possui chaves id, name e quantity", async () => {
+        const response = await ProductsService.deleteById(1);
+        expect(...response).to.include.all.keys("idDeleted");
+      });
+    });
   });
-
-
-
-
 });
