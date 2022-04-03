@@ -155,4 +155,57 @@ describe("(Camada Service de sales - Vendas)", () => {
       });
     });
   });
+
+  describe("Quando atualiza uma venda", () => {
+    describe("Quando o id não existe", () => {
+      const id = 9999;
+      const productId = 1;
+      const quantity = 100;
+
+      before(async () => {
+        sinon.stub(SalesModel, "getById").resolves([]);
+      });
+
+      after(async () => {
+        SalesModel.getById.restore();
+      });
+
+      it("retorna undefined", async () => {
+        const response = await SalesService.update(id, productId, quantity);
+        expect(response).to.include.all.keys("error", "message");
+      });
+    });
+
+    describe("Quando a atualizacao é realizada", () => {
+      const id = 1;
+      const productId = 1;
+      const quantity = 100;
+
+      before(() => {
+        sinon.stub(SalesModel, "getById").resolves([
+          { date: "2022-04-03T20:05:38.000Z", productId: 1, quantity: 5 },
+          { date: "2022-04-03T20:05:38.000Z", productId: 2, quantity: 10 },
+        ]);
+      });
+
+      after(() => {
+        SalesModel.getById.restore();
+      });
+
+      it("retorna um objeto", async () => {
+        const response = await SalesService.update(id, productId, quantity);
+        expect(response).to.be.an("object");
+      });
+
+      it("O objeto não está vazio", async () => {
+        const response = await SalesService.update(id, productId, quantity);
+        expect(response).to.be.not.empty;
+      });
+
+      it("Objeto possui chaves 'saleId' e 'itemUpdated'", async () => {
+        const response = await SalesService.update(id, productId, quantity);
+        expect(response).to.include.all.keys("saleId", "itemUpdated");
+      });
+    });
+  });
 });

@@ -45,21 +45,27 @@ const update = async (id, productId, quantity) => {
     }
 
     const exist = await SalesModel.getById(id);
+
     if (exist.length === 0) {
       return { error: 404, message: 'Sale not found' };
     }
 
     const product = await SalesModel.update(id, productId, quantity);
+
     return product;
   } catch (error) {
     console.log(error);
+    return { error: 500, message: 'Erro no Servidor' };
   }
 };
 
 const deleteById = async (id) => {
   try {
     const exist = await SalesModel.getById(id);
-    if (exist.length === 0) return exist;
+
+    if (exist.length === 0) {
+      return { error: 404, message: 'Sale not found' };
+    }
 
     const sale = await SalesModel.deleteById(id);
     return sale;
