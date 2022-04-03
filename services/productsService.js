@@ -66,8 +66,9 @@ const update = async (id, name, quantity) => {
 const deleteById = async (id) => {
   try {
     const exist = await ProductsModel.getById(id);
-    console.log('exist: ', exist);
-    if (!exist) return exist;
+    if (!exist) {
+      return { error: 404, message: 'Product not found' };
+    }
 
     const product = await ProductsModel.deleteById(id);
     return product;

@@ -406,7 +406,10 @@ describe("(Camada Controller de products - Produtos)", () => {
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
 
-        sinon.stub(ProductsService, "deleteById").resolves(null);
+        sinon.stub(ProductsService, "deleteById").resolves({
+          error: 404,
+          message: "Product not found",
+        });
       });
 
       after(() => {
