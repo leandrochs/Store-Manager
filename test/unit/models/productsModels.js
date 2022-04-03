@@ -6,28 +6,18 @@ const ProductsModels = require("../../../models/productsModel");
 
 describe("(Camada Model de products - Produtos)", () => {
   describe("Quando busca todos os produtos", () => {
-    before(() => {
-      sinon.stub(ProductsModels, "getAllProducts").resolves([
-        {
-          id: 1,
-          name: "Martelo de Thor",
-          quantity: 10,
-        },
-        {
-          id: 2,
-          name: "Traje de encolhimento",
-          quantity: 20,
-        },
-        {
-          id: 3,
-          name: "Escudo do Capitão América",
-          quantity: 30,
-        },
+    before(async () => {
+      sinon.stub(connection, "execute").resolves([
+        [
+          { id: 1, name: "Martelo de Thor", quantity: 10 },
+          { id: 2, name: "Traje de encolhimento", quantity: 20 },
+          { id: 3, name: "Escudo do Capitão América", quantity: 30 },
+        ],
       ]);
     });
 
-    after(() => {
-      ProductsModels.getAllProducts.restore();
+    after(async () => {
+      connection.execute.restore();
     });
 
     it("retorna um array", async () => {
@@ -52,16 +42,20 @@ describe("(Camada Model de products - Produtos)", () => {
   });
 
   describe("Quando busca produtos por id", () => {
-    before(() => {
-      sinon.stub(ProductsModels, "getById").resolves({
-        id: 1,
-        name: "Martelo de Thor",
-        quantity: 10,
-      });
+    before(async () => {
+      sinon.stub(connection, "execute").resolves([
+        [
+          {
+            id: 1,
+            name: "Martelo de Thor",
+            quantity: 10,
+          },
+        ],
+      ]);
     });
 
-    after(() => {
-      ProductsModels.getById.restore();
+    after(async () => {
+      connection.execute.restore();
     });
 
     it("retorna um objeto", async () => {
@@ -81,14 +75,13 @@ describe("(Camada Model de products - Produtos)", () => {
   });
 
   describe("Quando o cadastro é realizado", () => {
-
     const payloadProduct = {
       name: "Novo Produto",
       quantity: 10,
-    }
+    };
 
     before(async () => {
-      sinon.stub(connection, 'execute').resolves([{ insertId: 1 }]);
+      sinon.stub(connection, "execute").resolves([{ insertId: 1 }]);
     });
 
     after(async () => {
