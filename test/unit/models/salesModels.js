@@ -171,4 +171,29 @@ describe("(Camada Model de sales - Vendas)", () => {
       expect(response).to.include.all.keys("saleId", "itemUpdated");
     });
   });
+
+  describe("Quando uma venda é deletada", () => {
+    before(async () => {
+      sinon.stub(connection, "execute").resolves([[]]);
+    });
+
+    after(async () => {
+      connection.execute.restore();
+    });
+
+    it("retorna um objeto", async () => {
+      const response = await SalesModels.deleteById(1);
+      expect(response).to.be.an("array");
+    });
+
+    it("O objeto não está vazio", async () => {
+      const response = await SalesModels.deleteById(1);
+      expect(response).to.be.not.empty;
+    });
+
+    it("Objeto possui chaves id, name e quantity", async () => {
+      const response = await SalesModels.deleteById(1);
+      expect(...response).to.include.all.keys("idDeleted");
+    });
+  });
 });
