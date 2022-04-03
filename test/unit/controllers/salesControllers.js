@@ -30,14 +30,14 @@ describe("(Camada Controller de sales - Vendas)", () => {
       },
     ];
 
-    before(() => {
+    before(async () => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
 
       sinon.stub(SalesService, "getAllSales").resolves(arrayResponse);
     });
 
-    after(() => {
+    after(async () => {
       SalesService.getAllSales.restore();
     });
 
@@ -57,7 +57,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.params = {
           id: 10,
         };
@@ -68,7 +68,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
         sinon.stub(SalesService, "getById").resolves([]);
       });
 
-      after(() => {
+      after(async () => {
         SalesService.getById.restore();
       });
 
@@ -88,7 +88,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.params = {
           id: 1,
         };
@@ -110,7 +110,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
         ]);
       });
 
-      after(() => {
+      after(async () => {
         SalesService.getById.restore();
       });
 
@@ -131,7 +131,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = [
           {
             quantity: 2,
@@ -147,7 +147,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         SalesService.create.restore();
       });
 
@@ -170,7 +170,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = [
           {
             productId: 1,
@@ -186,7 +186,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         SalesService.create.restore();
       });
 
@@ -209,7 +209,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = [
           {
             productId: 1,
@@ -226,7 +226,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         SalesService.create.restore();
       });
 
@@ -249,7 +249,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = [
           {
             productId: 1,
@@ -279,7 +279,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         SalesService.create.restore();
       });
 
@@ -300,7 +300,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = [
           {
             productId: 1,
@@ -321,7 +321,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         SalesService.update.restore();
       });
 
@@ -344,7 +344,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = [
           {
             productId: 1,
@@ -370,7 +370,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         SalesService.update.restore();
       });
 
@@ -391,7 +391,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = [
           {
             productId: 1,
@@ -411,7 +411,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
         );
       });
 
-      after(() => {
+      after(async () => {
         SalesService.deleteById.restore();
       });
 
@@ -434,7 +434,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.params = {
           id: 1,
         };
@@ -445,7 +445,7 @@ describe("(Camada Controller de sales - Vendas)", () => {
         sinon.stub(SalesService, "deleteById").resolves([{ idDeleted: "1" }]);
       });
 
-      after(() => {
+      after(async () => {
         SalesService.deleteById.restore();
       });
 

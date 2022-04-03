@@ -27,14 +27,14 @@ describe("(Camada Controller de products - Produtos)", () => {
       },
     ];
 
-    before(() => {
+    before(async () => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
 
       sinon.stub(ProductsService, "getAllProducts").resolves(arrayResponse);
     });
 
-    after(() => {
+    after(async () => {
       ProductsService.getAllProducts.restore();
     });
 
@@ -54,7 +54,7 @@ describe("(Camada Controller de products - Produtos)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.params = {
           id: 10,
         };
@@ -65,7 +65,7 @@ describe("(Camada Controller de products - Produtos)", () => {
         sinon.stub(ProductsService, "getById").resolves(null);
       });
 
-      after(() => {
+      after(async () => {
         ProductsService.getById.restore();
       });
 
@@ -85,7 +85,7 @@ describe("(Camada Controller de products - Produtos)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.params = {
           id: 1,
         };
@@ -100,7 +100,7 @@ describe("(Camada Controller de products - Produtos)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         ProductsService.getById.restore();
       });
 
@@ -123,7 +123,7 @@ describe("(Camada Controller de products - Produtos)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = {
           name: "prod",
           quantity: 100,
@@ -138,7 +138,7 @@ describe("(Camada Controller de products - Produtos)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         ProductsService.create.restore();
       });
 
@@ -161,7 +161,7 @@ describe("(Camada Controller de products - Produtos)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = {
           quantity: 100,
         };
@@ -175,7 +175,7 @@ describe("(Camada Controller de products - Produtos)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         ProductsService.create.restore();
       });
 
@@ -198,7 +198,7 @@ describe("(Camada Controller de products - Produtos)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = {
           name: "produto",
         };
@@ -212,7 +212,7 @@ describe("(Camada Controller de products - Produtos)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         ProductsService.create.restore();
       });
 
@@ -235,7 +235,7 @@ describe("(Camada Controller de products - Produtos)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = {
           name: "produto",
           quantity: 0,
@@ -250,7 +250,7 @@ describe("(Camada Controller de products - Produtos)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         ProductsService.create.restore();
       });
 
@@ -273,7 +273,7 @@ describe("(Camada Controller de products - Produtos)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = {
           name: "produto",
           quantity: 10,
@@ -289,7 +289,7 @@ describe("(Camada Controller de products - Produtos)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         ProductsService.create.restore();
       });
 
@@ -310,7 +310,7 @@ describe("(Camada Controller de products - Produtos)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = {
           name: "Martelo de Thor",
           quantity: 100,
@@ -329,7 +329,7 @@ describe("(Camada Controller de products - Produtos)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         ProductsService.update.restore();
       });
 
@@ -352,7 +352,7 @@ describe("(Camada Controller de products - Produtos)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = {
           name: "Martelo de Thor",
           quantity: 100,
@@ -372,7 +372,7 @@ describe("(Camada Controller de products - Produtos)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         ProductsService.update.restore();
       });
 
@@ -393,7 +393,7 @@ describe("(Camada Controller de products - Produtos)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.body = {
           name: "Martelo de Thor",
           quantity: 100,
@@ -412,7 +412,7 @@ describe("(Camada Controller de products - Produtos)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         ProductsService.deleteById.restore();
       });
 
@@ -435,7 +435,7 @@ describe("(Camada Controller de products - Produtos)", () => {
       const response = {};
       const request = {};
 
-      before(() => {
+      before(async () => {
         request.params = {
           id: 1,
         };
@@ -448,7 +448,7 @@ describe("(Camada Controller de products - Produtos)", () => {
           .resolves([{ idDeleted: "1" }]);
       });
 
-      after(() => {
+      after(async () => {
         ProductsService.deleteById.restore();
       });
 

@@ -7,7 +7,7 @@ const ProductsModel = require("../../../models/productsModel");
 
 describe("(Camada Service de products - Produtos)", () => {
   describe("Quando busca todos os produtos", () => {
-    before(() => {
+    before(async () => {
       sinon.stub(ProductsModel, "getAllProducts").resolves([
         {
           id: 1,
@@ -27,7 +27,7 @@ describe("(Camada Service de products - Produtos)", () => {
       ]);
     });
 
-    after(() => {
+    after(async () => {
       ProductsModel.getAllProducts.restore();
     });
 
@@ -69,7 +69,7 @@ describe("(Camada Service de products - Produtos)", () => {
     });
 
     describe("Quando existe um produto com o id informado", () => {
-      before(() => {
+      before(async () => {
         sinon.stub(ProductsModel, "getById").resolves({
           id: 1,
           name: "Martelo de Thor",
@@ -77,7 +77,7 @@ describe("(Camada Service de products - Produtos)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         ProductsModel.getById.restore();
       });
 
@@ -122,7 +122,7 @@ describe("(Camada Service de products - Produtos)", () => {
     });
 
     describe("Quando o cadastro é realizado", () => {
-      before(() => {
+      before(async () => {
         sinon.stub(ProductsModel, "create").resolves({
           id: 1,
           name: "Novo Produto",
@@ -130,7 +130,7 @@ describe("(Camada Service de products - Produtos)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         ProductsModel.create.restore();
       });
 
@@ -185,7 +185,7 @@ describe("(Camada Service de products - Produtos)", () => {
       const name = "Martelo de Thor";
       const quantity = 100;
 
-      before(() => {
+      before(async () => {
         sinon.stub(ProductsModel, "update").resolves({
           id: "1",
           name: "Martelo de Thor",
@@ -193,7 +193,7 @@ describe("(Camada Service de products - Produtos)", () => {
         });
       });
 
-      after(() => {
+      after(async () => {
         ProductsModel.update.restore();
       });
 
