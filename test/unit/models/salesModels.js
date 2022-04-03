@@ -139,4 +139,36 @@ describe("(Camada Model de sales - Vendas)", () => {
       expect(response).to.include.all.keys("id", "itemsSold");
     });
   });
+
+  describe("Quando uma venda é atualizada", () => {
+    const payloadSale = [
+      {
+        productId: 1,
+        quantity: 6,
+      },
+    ];
+
+    before(async () => {
+      sinon.stub(connection, "execute").resolves([[]]);
+    });
+
+    after(async () => {
+      connection.execute.restore();
+    });
+
+    it("retorna um objeto", async () => {
+      const response = await SalesModels.update(payloadSale);
+      expect(response).to.be.an("object");
+    });
+
+    it("O objeto não está vazio", async () => {
+      const response = await SalesModels.update(payloadSale);
+      expect(response).to.be.not.empty;
+    });
+
+    it("Objeto possui chaves id, name e quantity", async () => {
+      const response = await SalesModels.update(payloadSale);
+      expect(response).to.include.all.keys("saleId", "itemUpdated");
+    });
+  });
 });
