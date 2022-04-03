@@ -136,4 +136,38 @@ describe("(Camada Model de products - Produtos)", () => {
       expect(response).to.include.all.keys("id", "name", "quantity");
     });
   });
+
+  describe("Quando um produto é atualizado", () => {
+    before(async () => {
+      sinon.stub(connection, "execute").resolves([[]]);
+    });
+
+    after(async () => {
+      connection.execute.restore();
+    });
+
+    it("retorna um objeto", async () => {
+      const response = await ProductsModels.update({
+        name: "Martelo de Thor",
+        quantity: 100,
+      });
+      expect(response).to.be.an("object");
+    });
+
+    it("O objeto não está vazio", async () => {
+      const response = await ProductsModels.update({
+        name: "Martelo de Thor",
+        quantity: 100,
+      });
+      expect(response).to.be.not.empty;
+    });
+
+    it("Objeto possui chaves id, name e quantity", async () => {
+      const response = await ProductsModels.update({
+        name: "Martelo de Thor",
+        quantity: 100,
+      });
+      expect(response).to.include.all.keys("id", "name", "quantity");
+    });
+  });
 });
