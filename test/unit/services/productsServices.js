@@ -159,6 +159,7 @@ describe("(Camada Service de products - Produtos)", () => {
       });
     });
   });
+
   describe("Quando atualiza um produto", () => {
     describe("Quando o id não existe", () => {
       const id = 9999;
@@ -167,12 +168,12 @@ describe("(Camada Service de products - Produtos)", () => {
 
       before(async () => {
         sinon
-          .stub(ProductsModel, "update")
-          .resolves({ error: 404, message: "Product not found" });
+          .stub(ProductsModel, "getById")
+          .resolves(null);
       });
 
       after(async () => {
-        ProductsModel.update.restore();
+        ProductsModel.getById.restore();
       });
 
       it("retorna undefined", async () => {
@@ -214,6 +215,9 @@ describe("(Camada Service de products - Produtos)", () => {
       });
     });
   });
+
+
+
   describe("Quando deleta um produto", async () => {
     describe("Quando o id do produto não existe", async () => {
 
@@ -238,4 +242,41 @@ describe("(Camada Service de products - Produtos)", () => {
         expect(response).to.include.all.keys("error", "message");
       });
     });
+
+    // describe("Quando o produto é deletado", async () => {
+    //   const response = {};
+    //   const request = {};
+
+    //   before(() => {
+    //     request.params = {
+    //       id: 1,
+    //     };
+
+    //     response.sendStatus = sinon.stub().returns(response);
+    //     response.json = sinon.stub().returns();
+
+    //     sinon
+    //       .stub(ProductsService, "deleteById")
+    //       .resolves([{ idDeleted: "1" }]);
+    //   });
+
+    //   after(() => {
+    //     ProductsService.deleteById.restore();
+    //   });
+
+    //   it('é chamado o método "sendStatus" passando 204', async () => {
+    //     await ProductsController.deleteById(request, response);
+    //     expect(response.sendStatus.calledWith(204)).to.be.true;
+    //   });
+
+    //   it('não é chamado o método "json"', async () => {
+    //     await ProductsController.deleteById(request, response);
+    //     expect(response.json.calledWith(sinon.match.object)).to.be.equal(false);
+    //   });
+    // });
+  });
+
+
+
+
 });
