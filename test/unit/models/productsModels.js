@@ -74,7 +74,7 @@ describe("(Camada Model de products - Produtos)", () => {
     });
   });
 
-  describe("Quando o cadastro é realizado", () => {
+  describe("Quando o cadastra um produto", () => {
     const payloadProduct = {
       name: "Novo Produto",
       quantity: 10,
@@ -100,6 +100,39 @@ describe("(Camada Model de products - Produtos)", () => {
 
     it("Objeto possui chaves id, name e quantity", async () => {
       const response = await ProductsModels.create(payloadProduct);
+      expect(response).to.include.all.keys("id", "name", "quantity");
+    });
+  });
+
+  describe("Quando a função getByName é chamada", () => {
+    before(async () => {
+      sinon.stub(connection, "execute").resolves([
+        [
+          {
+            id: 1,
+            name: "Martelo de Thor",
+            quantity: 10,
+          },
+        ],
+      ]);
+    });
+
+    after(async () => {
+      connection.execute.restore();
+    });
+
+    it("retorna um objeto", async () => {
+      const response = await ProductsModels.getByName("Martelo de Thor");
+      expect(response).to.be.an("object");
+    });
+
+    it("O objeto não está vazio", async () => {
+      const response = await ProductsModels.getByName("Martelo de Thor");
+      expect(response).to.be.not.empty;
+    });
+
+    it("Objeto possui chaves id, name e quantity", async () => {
+      const response = await ProductsModels.getByName("Martelo de Thor");
       expect(response).to.include.all.keys("id", "name", "quantity");
     });
   });
