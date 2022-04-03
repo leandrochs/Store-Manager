@@ -159,4 +159,59 @@ describe("(Camada Service de products - Produtos)", () => {
       });
     });
   });
+  describe("Quando atualiza um produto", () => {
+    describe("Quando o id não existe", () => {
+      const id = 9999;
+      const name = "Martelo de Thor";
+      const quantity = 100;
+
+      before(async () => {
+        sinon
+          .stub(ProductsModel, "update")
+          .resolves({ error: 404, message: "Product not found" });
+      });
+
+      after(async () => {
+        ProductsModel.update.restore();
+      });
+
+      it("retorna undefined", async () => {
+        const response = await ProductsService.update(id, name, quantity);
+        expect(response).to.include.all.keys("error", "message");
+      });
+    });
+
+    describe("Quando a atualizacao é realizada", () => {
+      const id = 1;
+      const name = "Martelo de Thor";
+      const quantity = 100;
+
+      before(() => {
+        sinon.stub(ProductsModel, "update").resolves({
+          id: "1",
+          name: "Martelo de Thor",
+          quantity: 100,
+        });
+      });
+
+      after(() => {
+        ProductsModel.update.restore();
+      });
+
+      it("retorna um objeto", async () => {
+        const response = await ProductsService.update(id, name, quantity);
+        expect(response).to.be.an("object");
+      });
+
+      it("O objeto não está vazio", async () => {
+        const response = await ProductsService.update(id, name, quantity);
+        expect(response).to.be.not.empty;
+      });
+
+      it("Objeto possui chaves id, name e quantity", async () => {
+        const response = await ProductsService.update(id, name, quantity);
+        expect(response).to.include.all.keys("id", "name", "quantity");
+      });
+    });
+  });
 });
