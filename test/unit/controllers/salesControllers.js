@@ -315,7 +315,10 @@ describe("(Camada Controller de sales - Vendas)", () => {
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
 
-        sinon.stub(SalesService, "update").resolves([]);
+        sinon.stub(SalesService, "update").resolves({
+          error: 404,
+          message: "Sale not found",
+        });
       });
 
       after(() => {

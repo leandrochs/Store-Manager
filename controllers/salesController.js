@@ -49,10 +49,6 @@ const update = async (req, res) => {
       return res.status(sale.error).json({ message: sale.message });
     }
 
-    if (sale.length === 0) {
-      return res.status(404).json({ message: 'Sale not found' });
-    }
-
     return res.status(200).json(sale);
   } catch (error) {
     console.log(error);

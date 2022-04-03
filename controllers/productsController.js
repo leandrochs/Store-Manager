@@ -48,9 +48,6 @@ const update = async (req, res) => {
     const { id } = req.params;
     const { name, quantity } = req.body;
     const product = await ProductsService.update(id, name, quantity);
-    if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
-    }
 
     if (product.error) {
       return res.status(product.error).json({ message: product.message });

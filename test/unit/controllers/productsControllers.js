@@ -323,7 +323,10 @@ describe("(Camada Controller de products - Produtos)", () => {
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
 
-        sinon.stub(ProductsService, "update").resolves(null);
+        sinon.stub(ProductsService, "update").resolves({
+          error: 404,
+          message: "Product not found",
+        });
       });
 
       after(() => {
