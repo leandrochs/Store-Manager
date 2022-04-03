@@ -6,7 +6,7 @@ const SalesModel = require("../../../models/salesModels");
 
 describe("(Camada Service de sales - Vendas)", () => {
   describe("Quando busca todas as vendas", () => {
-    before(() => {
+    before(async () => {
       sinon.stub(SalesModel, "getAllSales").resolves([
         {
           saleId: 1,
@@ -29,7 +29,7 @@ describe("(Camada Service de sales - Vendas)", () => {
       ]);
     });
 
-    after(() => {
+    after(async () => {
       SalesModel.getAllSales.restore();
     });
 
@@ -76,7 +76,7 @@ describe("(Camada Service de sales - Vendas)", () => {
     });
 
     describe("quando existe venda com o id informado", () => {
-      before(() => {
+      before(async () => {
         sinon.stub(SalesModel, "getById").resolves([
           {
             date: "2022-03-31T13:23:16.000Z",
@@ -91,7 +91,7 @@ describe("(Camada Service de sales - Vendas)", () => {
         ]);
       });
 
-      after(() => {
+      after(async () => {
         SalesModel.getById.restore();
       });
 
@@ -123,13 +123,13 @@ describe("(Camada Service de sales - Vendas)", () => {
 
   describe("Quando cadastra um produto", () => {
     describe("Quando o cadastro é realizado", () => {
-      before(() => {
+      before(async () => {
         sinon
           .stub(SalesModel, "create")
           .resolves({ id: 3, itemsSold: [{ productId: 1, quantity: 3 }] });
       });
 
-      after(() => {
+      after(async () => {
         SalesModel.create.restore();
       });
 
@@ -181,14 +181,14 @@ describe("(Camada Service de sales - Vendas)", () => {
       const productId = 1;
       const quantity = 100;
 
-      before(() => {
+      before(async () => {
         sinon.stub(SalesModel, "getById").resolves([
           { date: "2022-04-03T20:05:38.000Z", productId: 1, quantity: 5 },
           { date: "2022-04-03T20:05:38.000Z", productId: 2, quantity: 10 },
         ]);
       });
 
-      after(() => {
+      after(async () => {
         SalesModel.getById.restore();
       });
 
@@ -205,6 +205,57 @@ describe("(Camada Service de sales - Vendas)", () => {
       it("Objeto possui chaves 'saleId' e 'itemUpdated'", async () => {
         const response = await SalesService.update(id, productId, quantity);
         expect(response).to.include.all.keys("saleId", "itemUpdated");
+      });
+    });
+  });
+
+  describe("Quando deleta uma venda", () => {
+    describe("Quando o id não existe", () => {
+      const id = 9999;
+
+      before(async () => {
+        sinon.stub(SalesModel, "getById").resolves([]);
+      });
+
+      after(async () => {
+        SalesModel.getById.restore();
+      });
+
+      it("retorna undefined", async () => {
+        const response = await SalesService.deleteById(id);
+        expect(response).to.include.all.keys("error", "message");
+      });
+    });
+
+    describe("Quando a venda é deletada", () => {
+      const id = 1;
+      const productId = 1;
+      const quantity = 100;
+
+      before(async () => {
+        sinon.stub(SalesModel, "getById").resolves([
+          { date: "2022-04-03T20:05:38.000Z", productId: 1, quantity: 5 },
+          { date: "2022-04-03T20:05:38.000Z", productId: 2, quantity: 10 },
+        ]);
+      });
+
+      after(async () => {
+        SalesModel.getById.restore();
+      });
+
+      it("retorna um objeto", async () => {
+        const response = await SalesService.deleteById(1);
+        expect(response).to.be.an("array");
+      });
+
+      it("O objeto não está vazio", async () => {
+        const response = await SalesService.deleteById(1);
+        expect(response).to.be.not.empty;
+      });
+
+      it("Objeto possui chaves id, name e quantity", async () => {
+        const response = await SalesService.deleteById(1);
+        expect(...response).to.include.all.keys("idDeleted");
       });
     });
   });
