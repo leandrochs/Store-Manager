@@ -214,4 +214,28 @@ describe("(Camada Service de products - Produtos)", () => {
       });
     });
   });
+  describe("Quando deleta um produto", async () => {
+    describe("Quando o id do produto não existe", async () => {
+
+      const id = 9999;
+      const name = "Martelo de Thor";
+      const quantity = 100;
+
+      before(async () => {
+        sinon
+          .stub(ProductsModel, "getById")
+          .resolves(null);
+      });
+
+      after(async () => {
+        ProductsModel.getById.restore();
+      });
+
+      it("retorna propriedades 'error' e 'message'", async () => {
+        const response = await ProductsService.deleteById(id);
+      // expect(response).to.be.an("array");
+
+        expect(response).to.include.all.keys("error", "message");
+      });
+    });
 });
