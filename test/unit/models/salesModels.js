@@ -7,30 +7,32 @@ const SalesModels = require("../../../models/salesModels");
 describe("(Camada Model de sales - Vendas)", () => {
   describe("Quando busca todas as vendas", () => {
     before(() => {
-      sinon.stub(SalesModels, "getAllSales").resolves([
-        {
-          saleId: 1,
-          date: "2022-03-31T01:33:34.000Z",
-          productId: 1,
-          quantity: 5,
-        },
-        {
-          saleId: 1,
-          date: "2022-03-31T01:33:34.000Z",
-          productId: 2,
-          quantity: 10,
-        },
-        {
-          saleId: 2,
-          date: "2022-03-31T01:33:34.000Z",
-          productId: 3,
-          quantity: 15,
-        },
+      sinon.stub(connection, "execute").resolves([
+        [
+          {
+            saleId: 1,
+            date: "2022-03-31T01:33:34.000Z",
+            productId: 1,
+            quantity: 5,
+          },
+          {
+            saleId: 1,
+            date: "2022-03-31T01:33:34.000Z",
+            productId: 2,
+            quantity: 10,
+          },
+          {
+            saleId: 2,
+            date: "2022-03-31T01:33:34.000Z",
+            productId: 3,
+            quantity: 15,
+          },
+        ],
       ]);
     });
 
     after(() => {
-      SalesModels.getAllSales.restore();
+      connection.execute.restore();
     });
 
     it("retorna um array", async () => {
@@ -61,22 +63,24 @@ describe("(Camada Model de sales - Vendas)", () => {
 
   describe("Quando busca vendas por id", () => {
     before(() => {
-      sinon.stub(SalesModels, "getById").resolves([
-        {
-          date: "2022-03-31T01:33:34.000Z",
-          productId: 1,
-          quantity: 5,
-        },
-        {
-          date: "2022-03-31T01:33:34.000Z",
-          productId: 2,
-          quantity: 10,
-        },
+      sinon.stub(connection, "execute").resolves([
+        [
+          {
+            date: "2022-03-31T01:33:34.000Z",
+            productId: 1,
+            quantity: 5,
+          },
+          {
+            date: "2022-03-31T01:33:34.000Z",
+            productId: 2,
+            quantity: 10,
+          },
+        ],
       ]);
     });
 
     after(() => {
-      SalesModels.getById.restore();
+      connection.execute.restore();
     });
 
     it("retorna um array", async () => {
